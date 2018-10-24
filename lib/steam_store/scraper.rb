@@ -12,9 +12,12 @@ class SteamStore::Scraper
       :url => game.attribute("href").value}}
   end
 
-  def scrape_game
-    game = Nokogiri::HTML(open(scrape_for_content[0][:url]))
-    # summary = game.search(".game_description_snippet").text.strip
+  def scrape_game(url)
+    game = Nokogiri::HTML(open(url))
+    h={}
+    h[:summary] = game.search(".game_description_snippet").text.strip
+
+
   end
 
 end

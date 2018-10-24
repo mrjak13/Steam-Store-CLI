@@ -28,10 +28,19 @@ class SteamStore::CLI
 
     puts "Welcome to the Steam Store"
     create_games
+    game_info
   end
 
   def create_games
     SteamStore::Scraper.new.scrape_for_content.each {|game|
       SteamStore::Game.new(game)}
+  end
+
+  def game_info
+    # binding.pry
+    url = SteamStore::Game.all[0].url
+    summary = SteamStore::Scraper.new.scrape_game(url)
+
+    # SteamStore::Game.all.each {|game| game.add_attributes(SteamStore::Scraper.new.scrape_game(game.url))}
   end
 end

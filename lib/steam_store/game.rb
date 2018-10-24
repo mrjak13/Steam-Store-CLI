@@ -1,5 +1,5 @@
 class SteamStore::Game
-  attr_accessor :name, :url
+  attr_accessor :name, :url, :summary
 
   @@all = []
 
@@ -7,6 +7,11 @@ class SteamStore::Game
     self.send(:name=, hash[:name])
     self.send(:url=, hash[:url])
     save
+  end
+
+  def add_attributes(string)
+    self.send(:summary=, string)
+
   end
 
   def self.all
