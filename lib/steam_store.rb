@@ -1,5 +1,7 @@
-require "steam_store/version"
+# require "steam_store/version"
 
 module SteamStore
+
+
   # Your code goes here...
 end
