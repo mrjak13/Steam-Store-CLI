@@ -1,9 +1,12 @@
 # require_relative '../lib/file'
-require 'bundler'
+require 'pry'
+require 'nokogiri'
+require 'open-uri'
 
-Bundler.require
 
 
 # load libraries
-# ../lib/filename
-# require_all  ',/lib'
+require_relative '../lib/steam_store.rb'
+require_relative '../lib/steam_store/cli.rb'
+require_relative '../lib/steam_store/scraper.rb'
+# require_all  './lib'
