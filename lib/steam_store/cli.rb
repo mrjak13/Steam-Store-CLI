@@ -1,3 +1,4 @@
+
 class SteamStore::CLI
 
   def call
@@ -26,9 +27,11 @@ class SteamStore::CLI
     DOC
 
     puts "Welcome to the Steam Store"
-
-    SteamStore::Scraper.new.home_page
+    create_games
   end
 
-
+  def create_games
+    SteamStore::Scraper.new.scrape_for_content.each {|game|
+      SteamStore::Game.new(game)}
+  end
 end
