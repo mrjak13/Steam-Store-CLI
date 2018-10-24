@@ -28,10 +28,8 @@ class SteamStore::CLI
 
     puts "Welcome to the Steam Store"
     create_games
-
-    # game_info(0)
+    SteamStore::Game.all.pop
     menu
-
   end
 
   def create_games
@@ -40,30 +38,27 @@ class SteamStore::CLI
   end
 
   def menu
-    SteamStore::Game.all.pop
     input = nil
-    until input == "exit"
-      puts "Which game would you like to know more about? [Enter a number or 'exit']"
-      puts ""
-      SteamStore::Game.all.each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
-      input = gets.strip
-
+    puts "Which game would you like to know more about? [Enter a number or exit]"
+    puts ""
+    SteamStore::Game.all.each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
+    input = gets.strip
+    if input != "exit" && input.to_i > 0
       game = SteamStore::Game.all[input.to_i-1]
       game_info(game)
       print_game(game)
-
       puts ""
       puts "Would you like to know about a different game? [y/n]"
       input = gets.strip.downcase
-
       if input == "y"
         menu
       elsif input == "n"
-        puts "See ya!"
-        exit
+        good_bye
       else
         menu
       end
+    else
+      good_bye
     end
   end
 
@@ -82,5 +77,11 @@ class SteamStore::CLI
     puts ""
     puts "Category: #{game.category}"
     puts "For more information please visit #{game.url}"
+  end
+
+  def good_bye
+    a = ["Goodbye!", "See ya!", "Later!", "Bye!", "Thank you!", "Till next time!", "You'll be back!"]
+    puts ""
+    puts "#{a.sample}"
   end
 end
