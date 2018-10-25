@@ -26,4 +26,8 @@ class SteamStore::Game
     @@all << self
   end
 
+  def self.destroy
+    @@all.clear
+  end
+
 end

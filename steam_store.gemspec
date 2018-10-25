@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["'Justin Kenney'"]
   spec.email         = ["'justinkenney13@gmail.com'"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = "CLI Version of the Steam homepage."
+  spec.description   = "Displays list of new, top selling, upcoming, or sale"
   spec.homepage      = "https://github.com/mrjak13/steam_store"
   spec.license       = "MIT"
 

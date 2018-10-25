@@ -3,6 +3,4 @@ require_relative '../config/environment'
 
 module SteamStore
 
-
-  # Your code goes here...
 end

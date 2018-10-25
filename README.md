@@ -1,9 +1,5 @@
 # SteamStore
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/steam_store`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 You can check out a CLI version of Steam's homepage!
 
 ## Installation
@@ -21,7 +17,7 @@ And then execute:
 Or install it yourself as:
 
     $ gem install steam_store
-
+buind
 ## Usage
 
 TODO: Write usage instructions here
