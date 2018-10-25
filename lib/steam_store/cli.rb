@@ -69,6 +69,7 @@ class SteamStore::CLI
     puts "Which game would you like to know more about? [Enter a number or exit]"
     puts ""
     SteamStore::Game.all.each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
+    puts ""
     input = gets.strip
     if input != "exit" && input.to_i > 0
       game = SteamStore::Game.all[input.to_i-1]
