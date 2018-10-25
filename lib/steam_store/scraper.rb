@@ -22,11 +22,13 @@ class SteamStore::Scraper
       :url => game.attribute("href").value}}
   end
 
-  def games_on_sale
-    on_sale = home_page.search("#tab_specials_content a")
-    on_sale.collect {|game| h = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value}}
-  end
+# ----------- MOST GAMES COMING FROM games_on_sale
+# COME UP WITH MISSING INFORMATION WHEN THEY HIT scrape_game----REMOVED FOR NOW
+  # def games_on_sale
+  #   on_sale = home_page.search("#tab_specials_content a")
+  #   on_sale.collect {|game| h = {:name => game.search(".tab_item_name").text,
+  #     :url => game.attribute("href").value}}
+  # end
 
   def self.scrape_game(url)
 
@@ -40,7 +42,6 @@ class SteamStore::Scraper
     end
     h[:developer] = game.search("#developers_list").text.strip
     h[:category] = game.search(".blockbg a:nth-of-type(2)").text
-    # binding.pry
     if game.search(".price").text == "" && game.search(".discount_final_price").first != nil
       h[:price] = game.search(".discount_final_price").first.text.strip
       h[:sale] = "on sale"

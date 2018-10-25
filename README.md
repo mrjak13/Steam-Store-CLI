@@ -20,7 +20,7 @@ Or install it yourself as:
 buind
 ## Usage
 
-TODO: Write usage instructions here
+Follow prompts to your CLI Steam Store!
 
 ## Development
 

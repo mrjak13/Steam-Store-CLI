@@ -34,7 +34,7 @@ class SteamStore::CLI
   def start
     puts "What would you like to see?"
     puts ""
-    puts "New Releases ---- Top Selling ---- Coming Soon ---- On Sale"
+    puts "New Releases ---- Top Selling ---- Coming Soon"#---- On Sale"
     input = gets.strip
     create_games(input)
     SteamStore::Game.all.pop
@@ -52,9 +52,13 @@ class SteamStore::CLI
     elsif input.downcase.split.join == "comingsoon"
       SteamStore::Scraper.new.games_coming_soon.each {|game|
         SteamStore::Game.new(game)}
-    elsif input.downcase.split.join == "onsale"
-      SteamStore::Scraper.new.games_on_sale.each {|game|
-        SteamStore::Game.new(game)}
+
+# ----------- MOST GAMES COMING FROM games_on_sale
+# COME UP WITH MISSING INFORMATION WHEN THEY HIT scrape_game----REMOVED FOR NOW
+
+    # elsif input.downcase.split.join == "onsale"
+    #   SteamStore::Scraper.new.games_on_sale.each {|game|
+    #     SteamStore::Game.new(game)}
     else
       start
     end
