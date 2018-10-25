@@ -84,7 +84,6 @@ class SteamStore::CLI
       elsif input == "n"
         good_bye
       else
-        menu
       end
     else
       good_bye
