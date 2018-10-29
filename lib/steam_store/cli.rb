@@ -37,18 +37,18 @@ class SteamStore::CLI
     puts "New Releases ---- Top Selling ---- Coming Soon"#---- On Sale"
     input = gets.strip
     create_games(input)
-    SteamStore::Game.all.pop
+    # SteamStore::Game.all.pop
     menu
   end
 
   def create_games(input)
-    if input.downcase.split.join == "newreleases"
+    if input.downcase.split.join == "newreleases" && SteamStore::Game.find_by_game_type("newreleases")
       SteamStore::Scraper.new.new_games.each {|game|
-        SteamStore::Game.new(game)}
+        SteamStore::Game.new(game, "newreleases")}
     elsif input.downcase.split.join == "topselling"
     SteamStore::Scraper.new.top_selling_games.each {|game|
       SteamStore::Game.new(game)}
-      SteamStore::Game.all.pop
+      # SteamStore::Game.all.pop
     elsif input.downcase.split.join == "comingsoon"
       SteamStore::Scraper.new.games_coming_soon.each {|game|
         SteamStore::Game.new(game)}
@@ -66,10 +66,11 @@ class SteamStore::CLI
 
   def menu
     input = nil
-    puts "Which game would you like to know more about? [Enter a number or exit]"
+    # puts "Which game would you like to know more about? [Enter a number or exit]"
     puts ""
     SteamStore::Game.all.each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
     puts ""
+    puts "Which game would you like to know more about? [Enter a number or exit]"
     input = gets.strip
     if input != "exit" && input.to_i > 0
       game = SteamStore::Game.all[input.to_i-1]

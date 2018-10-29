@@ -1,6 +1,7 @@
 class SteamStore::Scraper
 
   def home_page
+    puts "******Scraping home page*****"
     Nokogiri::HTML(open("https://store.steampowered.com/"))
   end
 
@@ -31,7 +32,7 @@ class SteamStore::Scraper
   # end
 
   def self.scrape_game(url)
-
+    puts  "**********Scrape Game**********"
     game = Nokogiri::HTML(open(url))
     h={}
     h[:summary] = game.search(".game_description_snippet").text.strip
