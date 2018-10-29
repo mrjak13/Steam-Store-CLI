@@ -61,25 +61,25 @@ class SteamStore::Scraper
   def self.scrape_game(url)
     puts  "**********Scrape Game**********"
     game = Nokogiri::HTML(open(url))
-    h={}
-    h[:summary] = game.search(".game_description_snippet").text.strip
+    game_details={}
+    game_details[:summary] = game.search(".game_description_snippet").text.strip
     if game.search(".date").text == ""
-      h[:release_date] = "Coming soon!"
+      game_details[:release_date] = "Coming soon!"
     else
-      h[:release_date] = game.search(".date").text
+      game_details[:release_date] = game.search(".date").text
     end
-    h[:developer] = game.search("#developers_list").text.strip
-    h[:game_type] = game.search(".blockbg a:nth-of-type(2)").text
+    game_details[:developer] = game.search("#developers_list").text.strip
+    game_details[:game_type] = game.search(".blockbg a:nth-of-type(2)").text
     if game.search(".price").text == "" && game.search(".discount_final_price").first != nil
-      h[:price] = game.search(".discount_final_price").first.text.strip
-      h[:sale] = "on sale"
+      game_details[:price] = game.search(".discount_final_price").first.text.strip
+      game_details[:sale] = "on sale"
     elsif game.search(".price").text != ""
-      h[:price] = game.search(".price").first.text.strip
-      h[:sale] = "full price"
+      game_details[:price] = game.search(".price").first.text.strip
+      game_details[:sale] = "full price"
     else
-      h[:price] = "coming soon"
-      h[:sale] = "not available"
+      game_details[:price] = "coming soon"
+      game_details[:sale] = "not available"
     end
-    h
+    game_details
   end
 end
