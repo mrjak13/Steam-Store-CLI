@@ -32,27 +32,6 @@ class SteamStore::CLI
     start
   end
 
-  def start
-    puts "What would you like to see?"
-    puts "New Releases ---- Top Selling ---- Coming Soon"# ---- On Sale"
-    puts ""
-    puts "Enter a category or exit"
-
-    input = ""
-    input = gets.strip
-
-    if input.downcase.split.join == "newreleases" || input.downcase.split.join == "topselling" || input.downcase.split.join == "comingsoon"
-      menu(input)
-    elsif input.downcase.split.join == "exit"
-      good_bye
-    else
-      puts ""
-      puts "I didn't understand that"
-      puts ""
-      start
-    end
-  end
-
   def create_games
     SteamStore::Scraper.new.home_page.each do |game|
       if game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) == nil
@@ -63,6 +42,25 @@ class SteamStore::CLI
         end
       else nil
       end
+    end
+  end
+
+  def start
+    puts "What would you like to see?"
+    puts "New Releases ---- Top Selling ---- Coming Soon"# ---- On Sale"
+    puts ""
+    puts "Enter a category or exit"
+    input = ""
+    input = gets.strip
+    if input.downcase.split.join == "newreleases" || input.downcase.split.join == "topselling" || input.downcase.split.join == "comingsoon"
+      menu(input)
+    elsif input.downcase.split.join == "exit"
+      good_bye
+    else
+      puts ""
+      puts "I didn't understand that"
+      puts ""
+      start
     end
   end
 

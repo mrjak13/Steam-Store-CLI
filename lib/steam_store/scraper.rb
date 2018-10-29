@@ -25,9 +25,9 @@ class SteamStore::Scraper
     end
 
     on_sale.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
-        :url => game.attribute("href").value, :category => ["onsale"]}
-        master_array << game_hash
-      end
+      :url => game.attribute("href").value, :category => ["onsale"]}
+      master_array << game_hash
+    end
     master_array
   end
 
