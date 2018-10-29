@@ -31,10 +31,14 @@ class SteamStore::Game
     @@all
   end
 
+def self.find_by_name(name)
+  # binding.pry
+  all.find {|game| game.name == name}
+end
+
 def self.find_by_game_type(category)
   # binding.pry
-  all.select {|game| game.category == category}
-
+  all.select {|game| game.category.include? category}
 end
 
   # def save

@@ -36,23 +36,36 @@ class SteamStore::CLI
     puts "What would you like to see?"
     puts ""
     puts "New Releases ---- Top Selling ---- Coming Soon"#---- On Sale"
-    input = gets.strip
+    puts ""
+    puts "Enter a category or exit"
+
     # create_games
     # SteamStore::Game.all.pop
-    if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon"
-      menu(input)
-    else puts "I didn't understand that"
-      start
+    input = gets.strip
+    until input.downcase.split.join == "exit"
+
+      if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon"
+        # menu(input)
+      else
+        start
+      end
     end
   end
 
   def create_games
     # if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon" && SteamStore::Game.find_by_game_type(input) == []
-    SteamStore::Scraper.new.home_page.each do |game| if game[:name] != ""
-        SteamStore::Game.new(game)
-      else nil
+    SteamStore::Scraper.new.home_page.each do |game|
+        if game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) == nil
+          SteamStore::Game.new(game)
+        elsif game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) != nil
+          game[:category].each do |category|
+          SteamStore::Game.find_by_name(game[:name]).category << category
+          end
+        else nil
+        end
+# binding.pry
       end
-    end
+
 
     # elsif input.downcase.split.join == "topselling"
     # SteamStore::Scraper.new.top_selling_games.each {|game|
@@ -79,6 +92,7 @@ class SteamStore::CLI
     # puts "Which game would you like to know more about? [Enter a number or exit]"
     puts ""
     SteamStore::Game.find_by_game_type(input).each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
+    # binding.pry
     puts ""
     puts "Which game would you like to know more about? [Enter a number or exit]"
     puts ""
@@ -86,7 +100,7 @@ class SteamStore::CLI
     if game_number != "exit" && game_number.to_i > 0
       game = SteamStore::Game.find_by_game_type(input)[game_number.to_i-1]
       game_info(game)
-      print_game(game)
+
       puts ""
       puts "Would you like to know about a different game? [y/n]"
       answer = gets.strip.downcase
@@ -103,7 +117,7 @@ class SteamStore::CLI
   end
 
   def game_info(game)
-    binding.pry
+    # binding.pry
     if game.price == nil
       game.add_info(SteamStore::Scraper.scrape_game(game.url))
       print_game(game)
@@ -131,4 +145,5 @@ class SteamStore::CLI
     puts "#{a.sample}"
     exit
   end
+
 end

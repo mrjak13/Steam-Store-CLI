@@ -11,22 +11,22 @@ class SteamStore::Scraper
 
     master_array = []
     new_releases.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value, :category => "newreleases"}
+      :url => game.attribute("href").value, :category => ["newreleases"]}
       master_array << game_hash
     end
 
     top_sellers.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value, :category => "top_sellers"}
+      :url => game.attribute("href").value, :category => ["topselling"]}
       master_array << game_hash
     end
 
     coming_soon.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value, :category => "comingsoon"}
+      :url => game.attribute("href").value, :category => ["comingsoon"]}
       master_array << game_hash
     end
 
     on_sale.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
-        :url => game.attribute("href").value}
+        :url => game.attribute("href").value, :category => ["onsale"]}
         master_array << game_hash
       end
     master_array
