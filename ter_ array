@@ -1,0 +1,31 @@
+
+[1mFrom:[0m /home/mrjak13/temporary/Steam-Store-CLI/lib/steam_store/scraper.rb @ line 28 SteamStore::Scraper#home_page:
+
+     [1;34m3[0m: [32mdef[0m [1;34mhome_page[0m
+     [1;34m4[0m:   puts [31m[1;31m"[0m[31m******Scraping home page*****[1;31m"[0m[31m[0m
+     [1;34m5[0m:   doc = [1;34;4mNokogiri[0m::HTML(open([31m[1;31m"[0m[31mhttps://store.steampowered.com/[1;31m"[0m[31m[0m))
+     [1;34m6[0m:   new_releases = doc.search([31m[1;31m"[0m[31m#tab_newreleases_content a[1;31m"[0m[31m[0m)
+     [1;34m7[0m:   [1;34m# top_sellers = home_page.search("#tab_topsellers_content a")[0m
+     [1;34m8[0m:   [1;34m# coming_soon = home_page.search("#tab_upcoming_content a")[0m
+     [1;34m9[0m:   [1;34m# on_sale = home_page.search("#tab_specials_content a")[0m
+    [1;34m10[0m:   master_array = []
+    [1;34m11[0m:   new_releases.each [32mdo[0m |game| game_hash = {[33m:name[0m => game.search([31m[1;31m"[0m[31m.tab_item_name[1;31m"[0m[31m[0m).text,
+    [1;34m12[0m:     [33m:url[0m => game.attribute([31m[1;31m"[0m[31mhref[1;31m"[0m[31m[0m).value, [33m:category[0m => [31m[1;31m"[0m[31mnewreleases[1;31m"[0m[31m[0m}
+    [1;34m13[0m:     master_array << game_hash
+    [1;34m14[0m:   [32mend[0m
+    [1;34m15[0m: 
+    [1;34m16[0m:   [1;34m#[0m
+    [1;34m17[0m:   [1;34m# top_sellers.collect do |game| game_hash = {:name => game.search(".tab_item_name").text,[0m
+    [1;34m18[0m:   [1;34m#   :url => game.attribute("href").value, :category => "top_sellers"}[0m
+    [1;34m19[0m:   [1;34m# end[0m
+    [1;34m20[0m:   [1;34m#[0m
+    [1;34m21[0m:   [1;34m# coming_soon.collect do |game| game_hash = {:name => game.search(".tab_item_name").text,[0m
+    [1;34m22[0m:   [1;34m#   :url => game.attribute("href").value, :category => "comingsoon"}[0m
+    [1;34m23[0m:   [1;34m# end[0m
+    [1;34m24[0m: 
+    [1;34m25[0m:   [1;34m# on_sale.collect {|game| h = {:name => game.search(".tab_item_name").text,[0m
+    [1;34m26[0m:   [1;34m#     :url => game.attribute("href").value}}[0m
+    [1;34m27[0m:   master_array
+ => [1;34m28[0m:   binding.pry
+    [1;34m29[0m: [32mend[0m
+

@@ -3,13 +3,13 @@ class SteamStore::Game
 
   @@all = []
 
-  def initialize(hash, category)
+  def initialize(hash)
     hash.each do |k, v|
       self.send("#{k}=", v)
     end
     # self.send(:name=, hash[:name])
     # self.send(:url=, hash[:url])
-    @category = category
+    # @category = category
     # binding.pry
 
     @@all << self

@@ -2,19 +2,34 @@ class SteamStore::Scraper
 
   def home_page
     puts "******Scraping home page*****"
-    Nokogiri::HTML(open("https://store.steampowered.com/"))
-    new_releases = home_page.search("#tab_newreleases_content a")
-    top_sellers = home_page.search("#tab_topsellers_content a")
-    coming_soon = home_page.search("#tab_upcoming_content a")
-    # on_sale = home_page.search("#tab_specials_content a")
-    new_releases.collect {|game| h = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value, category}}
-    top_sellers.collect {|game| h = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value}}
-    coming_soon.collect {|game| h = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value}}
-    # on_sale.collect {|game| h = {:name => game.search(".tab_item_name").text,
-    #     :url => game.attribute("href").value}}
+    doc = Nokogiri::HTML(open("https://store.steampowered.com/"))
+    new_releases = doc.search("#tab_newreleases_content a")
+    top_sellers = doc.search("#tab_topsellers_content a")
+    coming_soon = doc.search("#tab_upcoming_content a")
+    on_sale = doc.search("#tab_specials_content a")
+    # binding.pry
+
+    master_array = []
+    new_releases.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
+      :url => game.attribute("href").value, :category => "newreleases"}
+      master_array << game_hash
+    end
+
+    top_sellers.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
+      :url => game.attribute("href").value, :category => "top_sellers"}
+      master_array << game_hash
+    end
+
+    coming_soon.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
+      :url => game.attribute("href").value, :category => "comingsoon"}
+      master_array << game_hash
+    end
+
+    on_sale.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
+        :url => game.attribute("href").value}
+        master_array << game_hash
+      end
+    master_array
   end
 
   # def new_games

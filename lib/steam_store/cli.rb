@@ -32,20 +32,24 @@ class SteamStore::CLI
   end
 
   def start
-    puts "What would you like to see?"
-    puts ""
-    puts "New Releases ---- Top Selling ---- Coming Soon"#---- On Sale"
-    input = gets.strip
-    create_games(input)
+    # puts "What would you like to see?"
+    # puts ""
+    # puts "New Releases ---- Top Selling ---- Coming Soon"#---- On Sale"
+    # input = gets.strip
+    # create_games
     # SteamStore::Game.all.pop
-    # menu
+    create_games
+    menu
   end
 
-  def create_games(input)
-    if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon" && SteamStore::Game.find_by_game_type(input) == []
-      SteamStore::Scraper.new.new_games.each {|game|
-        SteamStore::Game.new(game, input)}
-        menu
+  def create_games
+    # if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon" && SteamStore::Game.find_by_game_type(input) == []
+    SteamStore::Scraper.new.home_page.each {|game| if game[:name] != ""
+        SteamStore::Game.new(game)
+      else nil
+      end}
+
+    menu
     # elsif input.downcase.split.join == "topselling"
     # SteamStore::Scraper.new.top_selling_games.each {|game|
     #   SteamStore::Game.new(game)}
@@ -60,12 +64,14 @@ class SteamStore::CLI
     # elsif input.downcase.split.join == "onsale"
     #   SteamStore::Scraper.new.games_on_sale.each {|game|
     #     SteamStore::Game.new(game)}
-    else
-      start
-    end
+    # else
+    #   start
+    # end
   end
 
   def menu
+
+    binding.pry
     input = nil
     # puts "Which game would you like to know more about? [Enter a number or exit]"
     puts ""
