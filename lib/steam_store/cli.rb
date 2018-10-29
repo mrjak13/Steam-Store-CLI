@@ -39,10 +39,8 @@ class SteamStore::CLI
     puts "Enter a category or exit"
 
     input = ""
-
     input = gets.strip
 
-    # binding.pry
     if input.downcase.split.join == "newreleases" || input.downcase.split.join == "topselling" || input.downcase.split.join == "comingsoon"
       menu(input)
     elsif input.downcase.split.join == "exit"
@@ -53,45 +51,19 @@ class SteamStore::CLI
       puts ""
       start
     end
-
-    # input = gets.strip
-    # menu(input)
-    # until input.downcase.split.join == "exit"
-    #
-    #   if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon"
-    #     # menu(input)
-    #   else
-    #     start
-    #   end
-    # end
   end
 
   def create_games
     SteamStore::Scraper.new.home_page.each do |game|
-        if game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) == nil
-          SteamStore::Game.new(game)
-        elsif game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) != nil
-          game[:category].each do |category|
-          SteamStore::Game.find_by_name(game[:name]).category << category
-          end
-        else nil
+      if game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) == nil
+        SteamStore::Game.new(game)
+      elsif game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) != nil
+        game[:category].each do |category|
+        SteamStore::Game.find_by_name(game[:name]).category << category
         end
+      else nil
       end
-
-
-    # elsif input.downcase.split.join == "topselling"
-    # SteamStore::Scraper.new.top_selling_games.each {|game|
-    #   SteamStore::Game.new(game)}
-    #   # SteamStore::Game.all.pop
-    # elsif input.downcase.split.join == "comingsoon"
-    #   SteamStore::Scraper.new.games_coming_soon.each {|game|
-    #     SteamStore::Game.new(game)}
-    # elsif input.downcase.split.join == "onsale"
-    #   SteamStore::Scraper.new.games_on_sale.each {|game|
-    #     SteamStore::Game.new(game)}
-    # else
-    #   start
-    # end
+    end
   end
 
   def menu(input)
@@ -99,13 +71,12 @@ class SteamStore::CLI
     puts ""
     SteamStore::Game.find_by_game_type(input).each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
     puts ""
-    puts "Which game would you like to know more about? [Enter a number or exit]"
+    puts "Which game would you like to know more about? [Enter a number]"
     puts ""
     game_number = gets.strip
-    if game_number != "exit" && game_number.to_i > 0
+    if game_number.to_i.between?(1, SteamStore::Game.find_by_game_type(input).count) #game_number != "exit" && game_number.to_i > 0
       game = SteamStore::Game.find_by_game_type(input)[game_number.to_i-1]
       game_info(game)
-
       puts ""
       puts "Would you like to know about a different game? [y/n]"
       answer = gets.strip.downcase
@@ -114,8 +85,12 @@ class SteamStore::CLI
       elsif answer == "n"
         good_bye
       else
+        puts "I did not understand that"
+        puts ""
+        start
       end
-    else puts "I did not understand that"
+    else
+      puts "I did not understand that"
       menu(input)
     end
   end
