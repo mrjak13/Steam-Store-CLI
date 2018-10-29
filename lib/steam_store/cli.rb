@@ -38,20 +38,21 @@ class SteamStore::CLI
     input = gets.strip
     create_games(input)
     # SteamStore::Game.all.pop
-    menu
+    # menu
   end
 
   def create_games(input)
-    if input.downcase.split.join == "newreleases" && SteamStore::Game.find_by_game_type("newreleases")
+    if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon" && SteamStore::Game.find_by_game_type(input) == []
       SteamStore::Scraper.new.new_games.each {|game|
-        SteamStore::Game.new(game, "newreleases")}
-    elsif input.downcase.split.join == "topselling"
-    SteamStore::Scraper.new.top_selling_games.each {|game|
-      SteamStore::Game.new(game)}
-      # SteamStore::Game.all.pop
-    elsif input.downcase.split.join == "comingsoon"
-      SteamStore::Scraper.new.games_coming_soon.each {|game|
-        SteamStore::Game.new(game)}
+        SteamStore::Game.new(game, input)}
+        menu
+    # elsif input.downcase.split.join == "topselling"
+    # SteamStore::Scraper.new.top_selling_games.each {|game|
+    #   SteamStore::Game.new(game)}
+    #   # SteamStore::Game.all.pop
+    # elsif input.downcase.split.join == "comingsoon"
+    #   SteamStore::Scraper.new.games_coming_soon.each {|game|
+    #     SteamStore::Game.new(game)}
 
 # ----------- MOST GAMES COMING FROM games_on_sale
 # COME UP WITH MISSING INFORMATION WHEN THEY HIT scrape_game----REMOVED FOR NOW
@@ -71,6 +72,7 @@ class SteamStore::CLI
     SteamStore::Game.all.each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
     puts ""
     puts "Which game would you like to know more about? [Enter a number or exit]"
+    puts ""
     input = gets.strip
     if input != "exit" && input.to_i > 0
       game = SteamStore::Game.all[input.to_i-1]
@@ -80,14 +82,14 @@ class SteamStore::CLI
       puts "Would you like to know about a different game? [y/n]"
       input = gets.strip.downcase
       if input == "y"
-        SteamStore::Game.destroy
+        # SteamStore::Game.destroy
         start
       elsif input == "n"
         good_bye
       else
       end
-    else
-      good_bye
+    else puts "I did not understand that"
+      menu
     end
   end
 
@@ -104,7 +106,7 @@ class SteamStore::CLI
     puts ""
     puts "About: #{game.summary}"
     puts ""
-    puts "Category: #{game.category}"
+    puts "Category: #{game.game_type}"
     puts "For more information please visit #{game.url}"
   end
 

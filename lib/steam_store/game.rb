@@ -3,13 +3,15 @@ class SteamStore::Game
 
   @@all = []
 
-  def initialize(hash, game_type)
+  def initialize(hash, category)
     hash.each do |k, v|
       self.send("#{k}=", v)
     end
     # self.send(:name=, hash[:name])
     # self.send(:url=, hash[:url])
-    @game_type = game_type
+    @category = category
+    # binding.pry
+
     @@all << self
   end
 
@@ -29,8 +31,9 @@ class SteamStore::Game
     @@all
   end
 
-def find_by_game_type(game_type)
-  all.select {|game| game.game_type == game_type}
+def self.find_by_game_type(category)
+  # binding.pry
+  all.select {|game| game.category == category}
 
 end
 
