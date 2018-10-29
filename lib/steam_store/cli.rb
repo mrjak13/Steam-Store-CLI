@@ -34,26 +34,39 @@ class SteamStore::CLI
 
   def start
     puts "What would you like to see?"
-    puts ""
-    puts "New Releases ---- Top Selling ---- Coming Soon"#---- On Sale"
+    puts "New Releases ---- Top Selling ---- Coming Soon"# ---- On Sale"
     puts ""
     puts "Enter a category or exit"
 
-    # create_games
-    # SteamStore::Game.all.pop
-    input = gets.strip
-    until input.downcase.split.join == "exit"
+    input = ""
 
-      if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon"
-        # menu(input)
-      else
-        start
-      end
+    input = gets.strip
+
+    # binding.pry
+    if input.downcase.split.join == "newreleases" || input.downcase.split.join == "topselling" || input.downcase.split.join == "comingsoon"
+      menu(input)
+    elsif input.downcase.split.join == "exit"
+      good_bye
+    else
+      puts ""
+      puts "I didn't understand that"
+      puts ""
+      start
     end
+
+    # input = gets.strip
+    # menu(input)
+    # until input.downcase.split.join == "exit"
+    #
+    #   if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon"
+    #     # menu(input)
+    #   else
+    #     start
+    #   end
+    # end
   end
 
   def create_games
-    # if input.downcase.split.join == "newreleases" || "topselling" || "comingsoon" && SteamStore::Game.find_by_game_type(input) == []
     SteamStore::Scraper.new.home_page.each do |game|
         if game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) == nil
           SteamStore::Game.new(game)
@@ -63,7 +76,6 @@ class SteamStore::CLI
           end
         else nil
         end
-# binding.pry
       end
 
 
@@ -74,10 +86,6 @@ class SteamStore::CLI
     # elsif input.downcase.split.join == "comingsoon"
     #   SteamStore::Scraper.new.games_coming_soon.each {|game|
     #     SteamStore::Game.new(game)}
-
-# ----------- MOST GAMES COMING FROM games_on_sale
-# COME UP WITH MISSING INFORMATION WHEN THEY HIT scrape_game----REMOVED FOR NOW
-
     # elsif input.downcase.split.join == "onsale"
     #   SteamStore::Scraper.new.games_on_sale.each {|game|
     #     SteamStore::Game.new(game)}
@@ -88,11 +96,8 @@ class SteamStore::CLI
 
   def menu(input)
     input = input.downcase.split.join
-    # binding.pry
-    # puts "Which game would you like to know more about? [Enter a number or exit]"
     puts ""
     SteamStore::Game.find_by_game_type(input).each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
-    # binding.pry
     puts ""
     puts "Which game would you like to know more about? [Enter a number or exit]"
     puts ""
@@ -105,7 +110,6 @@ class SteamStore::CLI
       puts "Would you like to know about a different game? [y/n]"
       answer = gets.strip.downcase
       if answer == "y"
-        # SteamStore::Game.destroy
         start
       elsif answer == "n"
         good_bye
@@ -117,7 +121,6 @@ class SteamStore::CLI
   end
 
   def game_info(game)
-    # binding.pry
     if game.price == nil
       game.add_info(SteamStore::Scraper.scrape_game(game.url))
       print_game(game)
