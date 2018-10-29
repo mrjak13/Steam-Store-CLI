@@ -31,30 +31,6 @@ class SteamStore::Scraper
     master_array
   end
 
-  # def new_games
-  #   new_releases = home_page.search("#tab_newreleases_content a")
-  #   new_releases.collect {|game| games_hash = {:name => game.search(".tab_item_name").text,
-  #     :url => game.attribute("href").value}}
-  # end
-  #
-  # def top_selling_games
-  #   top_sellers = home_page.search("#tab_topsellers_content a")
-  #   top_sellers.collect {|game| h = {:name => game.search(".tab_item_name").text,
-  #     :url => game.attribute("href").value}}
-  # end
-  #
-  # def games_coming_soon
-  #   coming_soon = home_page.search("#tab_upcoming_content a")
-  #   coming_soon.collect {|game| h = {:name => game.search(".tab_item_name").text,
-  #     :url => game.attribute("href").value}}
-  # end
-
-  # def games_on_sale
-  #   on_sale = home_page.search("#tab_specials_content a")
-  #   on_sale.collect {|game| h = {:name => game.search(".tab_item_name").text,
-  #     :url => game.attribute("href").value}}
-  # end
-
   def self.scrape_game(url)
     puts  "**********Scrape Game**********"
     game = Nokogiri::HTML(open(url))

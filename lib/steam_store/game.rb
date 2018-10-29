@@ -7,11 +7,6 @@ class SteamStore::Game
     hash.each do |k, v|
       self.send("#{k}=", v)
     end
-    # self.send(:name=, hash[:name])
-    # self.send(:url=, hash[:url])
-    # @category = category
-    # binding.pry
-
     @@all << self
   end
 
@@ -19,32 +14,17 @@ class SteamStore::Game
     hash.each do |k, v|
       self.send("#{k}=", v)
     end
-    # self.send(:summary=, hash[:summary])
-    # self.send(:release_date= , hash[:release_date])
-    # self.send(:developer= , hash[:developer])
-    # self.send(:category= , hash[:category])
-    # self.send(:price= , hash[:price])
-    # self.send(:sale= , hash[:sale])
   end
 
   def self.all
     @@all
   end
 
-def self.find_by_name(name)
-  all.find {|game| game.name == name}
-end
+  def self.find_by_name(name)
+    all.find {|game| game.name == name}
+  end
 
-def self.find_by_game_type(category)
-  all.select {|game| game.category.include? category}
-end
-
-  # def save
-  #   @@all << self
-  # end
-
-  # def self.destroy
-  #   @@all.clear
-  # end
-
+  def self.find_by_game_type(category)
+    all.select {|game| game.category.include? category}
+  end
 end
