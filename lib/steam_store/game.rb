@@ -14,7 +14,6 @@ class SteamStore::Game
   def self.create_from_collection(array)
     array.each do |hash|
       if hash != 0
-      # binding.pry
         self.new(hash)
       end
     end
@@ -37,6 +36,5 @@ class SteamStore::Game
   def self.find_by_game_type(category)
     all.select {|game| game.category.include? category}
   end
-
 
 end

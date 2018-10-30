@@ -82,9 +82,7 @@ class SteamStore::Scraper
   end
 
   def scrape_section(section, section_name)
-
     section.each do |game|
-
       if SteamStore::Game.find_by_name(game.search(".tab_item_name").text)
         SteamStore::Category.find_by_name(category).games << SteamStore::Game.find_by_name(game.search(".tab_item_name").text)
       else

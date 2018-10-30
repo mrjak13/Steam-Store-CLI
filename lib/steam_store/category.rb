@@ -1,4 +1,5 @@
 class SteamStore::Category
+
   attr_accessor :name, :games
 
   @@all =[]

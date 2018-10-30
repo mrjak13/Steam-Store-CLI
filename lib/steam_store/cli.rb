@@ -126,6 +126,7 @@ class SteamStore::CLI
     a = ["Goodbye!", "See ya!", "Later!", "Bye!", "Thank you!", "Till next time!", "You'll be back!"]
     puts ""
     puts "#{a.sample}"
+    puts ""
     exit
   end
 
