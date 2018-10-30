@@ -28,7 +28,6 @@ class SteamStore::CLI
 
     puts "Welcome to the Steam Store"
     puts ""
-    # create_games
     SteamStore::Scraper.new.home_page
     start
   end
@@ -49,27 +48,19 @@ class SteamStore::CLI
   def start
     puts "What would you like to see?"
     puts
-    # print names of categories
-    SteamStore::Category.all.each {|category|
-      puts "#{category.name.upcase}"}
-    # puts "New Releases ---- Top Selling ---- Coming Soon"# ---- On Sale"
+    SteamStore::Category.all.each {|category| puts "#{category.name.upcase}"}
     puts ""
     puts "Enter a category or exit"
 
     input = ""
     input = gets.strip
-    # can also use Category.name(s)
-
-    # if input.downcase.split.join == "newreleases" || input.downcase.split.join == "topsellers" || input.downcase.split.join == "upcoming"
 
     if SteamStore::Category.find_by_name(input.downcase.split.join) != nil
       menu(input)
     elsif input.downcase.split.join == "exit"
       good_bye
     else
-      puts ""
-      puts "I didn't understand that"
-      puts ""
+      invalid
       start
     end
   end
@@ -94,12 +85,11 @@ class SteamStore::CLI
       elsif answer == "n"
         good_bye
       else
-        puts "I did not understand that"
-        puts ""
+        invalid
         start
       end
     else
-      puts "I did not understand that"
+      invalid
       menu(input)
     end
   end
@@ -124,6 +114,12 @@ class SteamStore::CLI
     puts ""
     puts "Category: #{game.game_type}"
     puts "For more information please visit #{game.url}"
+  end
+
+  def invalid
+    puts ""
+    puts "I didn't understand that"
+    puts ""
   end
 
   def good_bye
