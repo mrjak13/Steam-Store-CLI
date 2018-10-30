@@ -3,32 +3,64 @@ class SteamStore::Scraper
   def home_page
     puts "******Scraping home page*****"
     doc = Nokogiri::HTML(open("https://store.steampowered.com/"))
-    new_releases = doc.search("#tab_newreleases_content a")
-    top_sellers = doc.search("#tab_topsellers_content a")
-    coming_soon = doc.search("#tab_upcoming_content a")
-    on_sale = doc.search("#tab_specials_content a")
+    # new_releases = doc.search("#tab_newreleases_content a")
+    # top_sellers = doc.search("#tab_topsellers_content a")
+    # coming_soon = doc.search("#tab_upcoming_content a")
+    # on_sale = doc.search("#tab_specials_content a")
 
-    master_array = []
-    new_releases.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value, :category => ["newreleases"]}
-      master_array << game_hash
+    # change sub_sections to doc.css()
+    sub_sections = %w[newreleases topsellers upcoming specials]
+
+    @master_array = []
+
+    sub_sections.each do |section|
+
+
+      SteamStore::Category.new(section)
+
+      @master_array << scrape_section(doc.css("#tab_#{section}_content a"), section)
+
     end
 
-    top_sellers.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value, :category => ["topselling"]}
-      master_array << game_hash
-    end
-
-    coming_soon.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value, :category => ["comingsoon"]}
-      master_array << game_hash
-    end
-
-    on_sale.each do |game| game_hash = {:name => game.search(".tab_item_name").text,
-      :url => game.attribute("href").value, :category => ["onsale"]}
-      master_array << game_hash
-    end
-    master_array
+    #
+    #
+    #
+    #
+    # new_releases.each do |game|
+    #   if SteamStore::Game.find_by_name(game.search(".tab_item_name").text)
+    #     SteamStore::Category.find_by_name(category).games
+    #
+    #     # if an object exists then add to category
+    #     # else make it and add it to category
+    #   end
+    #   game_hash = {
+    #     :name => game.search(".tab_item_name").text,
+    #     :url => game.attribute("href").value,
+    #     :category => ["newreleases"]
+    #     }
+    #   master_array << game_hash
+    # end
+    #
+    # top_sellers.each do |game|
+    #   game_hash = {:name => game.search(".tab_item_name").text,
+    #   :url => game.attribute("href").value, :category => ["topselling"]}
+    #   master_array << game_hash
+    # end
+    #
+    # coming_soon.each do |game|
+    #   game_hash = {:name => game.search(".tab_item_name").text,
+    #   :url => game.attribute("href").value, :category => ["comingsoon"]}
+    #   master_array << game_hash
+    # end
+    #
+    # on_sale.each do |game|
+    #   game_hash = {:name => game.search(".tab_item_name").text,
+    #   :url => game.attribute("href").value, :category => ["onsale"]}
+    #   master_array << game_hash
+    # end
+    binding.pry
+    SteamStore::Game.create_from_collection(@master_array)
+    binding.pry
   end
 
   def self.scrape_game(url)
@@ -54,5 +86,28 @@ class SteamStore::Scraper
       game_details[:sale] = "not available"
     end
     game_details
+  end
+
+  def scrape_section(section, section_name)
+
+    section.each do |game|
+
+      if SteamStore::Game.find_by_name(game.search(".tab_item_name").text)
+        SteamStore::Category.find_by_name(category).games << SteamStore::Game.find_by_name(game.search(".tab_item_name").text)
+
+        # if an object exists then add to category
+        # else make it and add it to category
+      else
+
+        game_hash = {
+          :name => game.search(".tab_item_name").text,
+          :url => game.attribute("href").value,
+          :category => section_name
+          }
+        if game_hash != nil && game_hash[:name] != ""
+          @master_array << game_hash
+        end
+      end
+    end
   end
 end

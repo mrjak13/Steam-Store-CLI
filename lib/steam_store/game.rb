@@ -7,7 +7,16 @@ class SteamStore::Game
     hash.each do |k, v|
       self.send("#{k}=", v)
     end
+    SteamStore::Category.find_by_name(category).games << self
     @@all << self
+  end
+
+  def self.create_from_collection(array)
+    # binding.pry
+    array.each do |hash|
+      binding.pry
+      self.new(hash)
+    end
   end
 
   def add_info(hash)
@@ -27,4 +36,6 @@ class SteamStore::Game
   def self.find_by_game_type(category)
     all.select {|game| game.category.include? category}
   end
+
+
 end
