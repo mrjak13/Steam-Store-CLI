@@ -12,10 +12,11 @@ class SteamStore::Game
   end
 
   def self.create_from_collection(array)
-    # binding.pry
     array.each do |hash|
-      binding.pry
-      self.new(hash)
+      if hash != 0
+      # binding.pry
+        self.new(hash)
+      end
     end
   end
 
