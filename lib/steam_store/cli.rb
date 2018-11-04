@@ -69,6 +69,7 @@ class SteamStore::CLI
     input = input.downcase.split.join
     puts ""
     category = SteamStore::Category.find_by_name(input)
+    # binding.pry
     category.games.each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
     puts ""
     puts "Which game would you like to know more about? [Enter a number]"
@@ -76,7 +77,8 @@ class SteamStore::CLI
     game_number = gets.strip
     if game_number.to_i.between?(1, category.games.count)
       # binding.pry
-      game = SteamStore::Game.find_by_game_type(input)[game_number.to_i-1]
+      game = category.games[game_number.to_i-1]
+      # game = SteamStore::Game.find_by_game_type(input)[game_number.to_i-1]
       game_info(game)
       puts ""
       puts "Would you like to know about a different game? [y/n]"
