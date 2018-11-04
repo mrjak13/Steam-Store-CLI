@@ -1,5 +1,5 @@
 class SteamStore::Game
-  # extend SteamStore::Findable
+  extend SteamStore::Findable
   attr_accessor :name, :url, :summary, :release_date, :developer, :category, :price, :sale, :game_type
 
   @@all = []
@@ -37,9 +37,9 @@ class SteamStore::Game
     @@all
   end
 
-  def self.find_by_name(name)
-    all.find {|game| game.name == name}
-  end
+  # def self.find_by_name(name)
+  #   all.find {|game| game.name == name}
+  # end
 
   def self.find_by_game_type(input)
     array = []
