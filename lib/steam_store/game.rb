@@ -13,7 +13,7 @@ class SteamStore::Game
     @@all << self
   end
 
-  def self.create_from_hash(hash)  
+  def self.create_from_hash(hash)
     if hash[:name] != ""
       self.new(hash)
     end
@@ -42,9 +42,7 @@ class SteamStore::Game
   end
 
   def self.find_by_game_type(cat)
-    # binding.pry
     all.select {|game| game.category{cat_name == cat}}
-    
   end
 
 end

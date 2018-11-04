@@ -32,19 +32,6 @@ class SteamStore::CLI
     start
   end
 
-  # def create_games
-  #   SteamStore::Scraper.new.home_page.each do |game|
-  #     if game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) == nil
-  #       # SteamStore::Game.new(game)
-  #     elsif game[:name] != "" && SteamStore::Game.find_by_name(game[:name]) != nil
-  #       game[:category].each do |category|
-  #       SteamStore::Game.find_by_name(game[:name]).category << category
-  #       end
-  #     else nil
-  #     end
-  #   end
-  # end
-
   def start
     puts "What would you like to see?"
     puts
@@ -69,7 +56,9 @@ class SteamStore::CLI
     input = input.downcase.split.join
     puts ""
     category = SteamStore::Category.find_by_name(input)
-    # binding.pry
+    # ----NEED TO FIGURE OUT HOW TO DISPLAY LIST OF GAMES BY LOOKING INO INSTANCE OF GAME.CATEGORY ARRAY
+    # category = SteamStore::Category.find_games_with_cat(input)
+    binding.pry
     category.games.each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
     puts ""
     puts "Which game would you like to know more about? [Enter a number]"
@@ -98,7 +87,6 @@ class SteamStore::CLI
   end
 
   def game_info(game)
-    # binding.pry
     if game.price == nil
       game.add_info(SteamStore::Scraper.scrape_game(game.url))
       print_game(game)
