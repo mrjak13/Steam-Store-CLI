@@ -75,6 +75,7 @@ class SteamStore::CLI
     puts ""
     game_number = gets.strip
     if game_number.to_i.between?(1, category.games.count)
+      # binding.pry
       game = SteamStore::Game.find_by_game_type(input)[game_number.to_i-1]
       game_info(game)
       puts ""
@@ -95,6 +96,7 @@ class SteamStore::CLI
   end
 
   def game_info(game)
+    # binding.pry
     if game.price == nil
       game.add_info(SteamStore::Scraper.scrape_game(game.url))
       print_game(game)

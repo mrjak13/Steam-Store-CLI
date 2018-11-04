@@ -1,4 +1,5 @@
 class SteamStore::Game
+  # extend SteamStore::Findable
   attr_accessor :name, :url, :summary, :release_date, :developer, :category, :price, :sale, :game_type
 
   @@all = []
@@ -7,17 +8,24 @@ class SteamStore::Game
     hash.each do |k, v|
       self.send("#{k}=", v)
     end
-    SteamStore::Category.find_by_name(category).games << self
+    # binding.pry
+    SteamStore::Category.find_by_name(category.first.name).games << self
     @@all << self
   end
 
-  def self.create_from_collection(array)
-    array.each do |hash|
-      if hash != 0
-        self.new(hash)
-      end
+  def self.create_from_hash(hash)  
+    if hash[:name] != ""
+      self.new(hash)
     end
   end
+
+  # def self.create_from_collection(array)
+  #   array.each do |hash|
+  #     if hash != 0
+  #       self.new(hash)
+  #     end
+  #   end
+  # end
 
   def add_info(hash)
     hash.each do |k, v|
@@ -33,8 +41,10 @@ class SteamStore::Game
     all.find {|game| game.name == name}
   end
 
-  def self.find_by_game_type(category)
-    all.select {|game| game.category.include? category}
+  def self.find_by_game_type(cat)
+    # binding.pry
+    all.select {|game| game.category{cat_name == cat}}
+    
   end
 
 end

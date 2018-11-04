@@ -1,4 +1,5 @@
 class SteamStore::Category
+  # extend SteamStore::Findable
 
   attr_accessor :name, :games
 
@@ -11,6 +12,7 @@ class SteamStore::Category
   end
 
   def self.find_by_name(name)
+    # binding.pry
     all.find {|category| category.name == name}
   end
 
