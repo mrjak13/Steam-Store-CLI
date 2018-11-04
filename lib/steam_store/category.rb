@@ -17,7 +17,7 @@ class SteamStore::Category
 
   # def self.find_games_with_cat(cat)
   #   all.each do |category|
-  # -----MAYBE USE FIND BELOW---
+  # # -----MAYBE USE FIND BELOW---
   #     category.games.select do |game|
   #       game.category.each{|cat_name| cat_name = cat}
   #     end

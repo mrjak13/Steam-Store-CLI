@@ -41,8 +41,16 @@ class SteamStore::Game
     all.find {|game| game.name == name}
   end
 
-  def self.find_by_game_type(cat)
-    all.select {|game| game.category{cat_name == cat}}
+  def self.find_by_game_type(input)
+    array = []
+    all.each do |game|
+      game.category.each do |cat_name|
+        if cat_name.name == input
+          array << game
+        end
+      end
+    end
+    array
   end
 
 end
