@@ -8,7 +8,6 @@ class SteamStore::Game
     hash.each do |k, v|
       self.send("#{k}=", v)
     end
-    # binding.pry
     SteamStore::Category.find_by_name(category.first.name).games << self
     @@all << self
   end
@@ -18,14 +17,6 @@ class SteamStore::Game
       self.new(hash)
     end
   end
-
-  # def self.create_from_collection(array)
-  #   array.each do |hash|
-  #     if hash != 0
-  #       self.new(hash)
-  #     end
-  #   end
-  # end
 
   def add_info(hash)
     hash.each do |k, v|
@@ -37,11 +28,7 @@ class SteamStore::Game
     @@all
   end
 
-  # def self.find_by_name(name)
-  #   all.find {|game| game.name == name}
-  # end
-
-  def self.find_by_game_type(input)
+  def self.find_by_game_category(input)
     array = []
     all.each do |game|
       game.category.each do |cat_name|

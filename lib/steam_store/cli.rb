@@ -38,7 +38,6 @@ class SteamStore::CLI
     SteamStore::Category.all.each {|category| puts "#{category.name.upcase}"}
     puts ""
     puts "Enter a category or exit"
-
     input = ""
     input = gets.strip
 
@@ -55,30 +54,22 @@ class SteamStore::CLI
   def menu(input)
     input = input.downcase.split.join
     puts ""
-    # category = SteamStore::Category.find_by_name(input)
-    category = SteamStore::Game.find_by_game_type(input)
-    # ----NEED TO FIGURE OUT HOW TO DISPLAY LIST OF GAMES BY LOOKING INO INSTANCE OF GAME.CATEGORY ARRAY
-    # category = SteamStore::Category.find_games_with_cat(input)
-    # binding.pry
-    # category.games.each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
-    binding.pry
+    category = SteamStore::Game.find_by_game_category(input)
     category.each.with_index(1) {|game, index| puts "#{index}. #{game.name}"}
 
     puts ""
     puts "Which game would you like to know more about? [Enter a number]"
     puts ""
     game_number = gets.strip
-    # if game_number.to_i.between?(1, category.games.count)
-    if game_number.to_i.between?(1, category.count)
-      # binding.pry
-      # game = category.games[game_number.to_i-1]
-      game = category[game_number.to_i-1]
 
-      # game = SteamStore::Game.find_by_game_type(input)[game_number.to_i-1]
+    if game_number.to_i.between?(1, category.count)
+      game = category[game_number.to_i-1]
       game_info(game)
+
       puts ""
       puts "Would you like to know about a different game? [y/n]"
       answer = gets.strip.downcase
+
       if answer == "y"
         start
       elsif answer == "n"
